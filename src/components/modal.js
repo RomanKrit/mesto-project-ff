@@ -1,32 +1,32 @@
-export { closeModal, openModal }
+export { showPopup, hidePopup };
 
-function openModal(popup) {
-	if (!popup.classList.contains('popup_is-opened')) {
-		popup.classList.add('popup_is-opened')
-		document.addEventListener('keydown', closeModalEsc)
-		popup.addEventListener('click', closeModalByOverlay)
-	}
+function showPopup(popupElement) {
+  if (!popupElement.classList.contains("popup_is-opened")) {
+    popupElement.classList.add("popup_is-opened");
+    document.addEventListener("keydown", handleEscClose);
+    popupElement.addEventListener("click", handleOverlayClick);
+  }
 }
 
-function closeModal(popup) {
-	if (popup) {
-		popup.classList.remove('popup_is-opened')
-		document.removeEventListener('keydown', closeModalEsc)
-		popup.removeEventListener('click', closeModalByOverlay)
-	}
+function hidePopup(popupElement) {
+  if (popupElement) {
+    popupElement.classList.remove("popup_is-opened");
+    document.removeEventListener("keydown", handleEscClose);
+    popupElement.removeEventListener("click", handleOverlayClick);
+  }
 }
 
-function closeModalEsc(evt) {
-	if (evt.key === 'Escape') {
-		const openedPopup = document.querySelector('.popup_is-opened')
-		if (openedPopup) {
-			closeModal(openedPopup)
-		}
-	}
+function handleEscClose(event) {
+  if (event.key === "Escape") {
+    const activePopup = document.querySelector(".popup_is-opened");
+    if (activePopup) {
+      hidePopup(activePopup);
+    }
+  }
 }
 
-function closeModalByOverlay(evt) {
-	if (evt.target === evt.currentTarget) {
-		closeModal(evt.currentTarget)
-	}
+function handleOverlayClick(event) {
+  if (event.target === event.currentTarget) {
+    hidePopup(event.currentTarget);
+  }
 }
